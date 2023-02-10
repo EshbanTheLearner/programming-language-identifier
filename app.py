@@ -10,18 +10,43 @@ code_snippets_list = [
     """.lstrip(),
     """
     package main
-    import "fmt"
+    import 'fmt'
     func main() {
-        fmt.Println("Hello World!")
+    	name := name()
+	    fmt.Println(name)
+    	age := age()
+	    fmt.Println(age)
+    	height := height()
+	    fmt.Println(height)
+    }
+
+    func name() string {
+	    return "Eshban Suleman"
+    }
+
+    func age() int {
+	    return 25
+    }
+
+    func height() float32 {
+	    return 5.10
     }
     """.lstrip(),
     """
-    public static <mask> set(string $key, $value) {
-        if (!in_array($key, self::$allowedKeys)) {
-            throw new \InvalidArgumentException('Invalid key given');
+    <?php
+        function reverse_string($str1){
+            $n = strlen($str1);
+            if($n == 1){
+                return $str1;
+                }
+            else{
+                $n--;
+                return reverse_string(substr($str1,1, $n)).substr($str1, 0, 1);
+            }
         }
-        self::$storedValues[$key] = $value;
-    }
+        print_r(reverse_string('1234')."\n");
+    ?>
+
     """.lstrip(),
     """
     function fibonacci(num){   
@@ -55,10 +80,9 @@ def load_pipeline():
     )
     return pipeline
 
-pipeline = load_pipeline()
 
-st.header("Programming Langauge Identifier")
-st.subheader("Paste your code snippet below 👇🏽")
+st.header("Programming Language Identifier 🔎")
+st.subheader("Paste code snippet below or select a sample snippet 👇🏽")
 
 selected_code_snippet = st.selectbox(
     "Select a random code snippet",
@@ -77,7 +101,9 @@ button = st.button("Detect Language 🔎")
 
 if button:
     if not len(text) == 0:
+        pipeline = load_pipeline()
         result_dict = pipeline(text)[0]
-        st.write(result_dict["label"])
+        #st.write(result_dict["label"].capitalize())
+        st.markdown(f"**_:red[{result_dict['label'].capitalize()}]_** programming language detected! :sunglasses:")
     else:
-        st.write("Add some text please")
+        st.markdown("Add some code please")
